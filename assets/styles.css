@@ -124,3 +124,11 @@ ul {
 #fiveDay .col .card {
   background-color: #0072b2;
 }
+
+#weatherButtons button {
+  border-radius: 5px;
+  width: 315px;
+  height: 45px;
+  margin: 5px auto;
+  background-color: #cac4ce;
+}

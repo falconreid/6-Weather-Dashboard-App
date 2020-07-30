@@ -1,35 +1,60 @@
 $(document).ready(function () {
   // create global variables
-  let cityName = "Longmont";
-  let stateName = "CO";
-  let countryName = "US";
 
-  $(this).on("click", function () {
-    var cityStr = $("#search-text-input").val();
-  });
+  let cityStr;
 
-  // open weather API call
-  const queryURL =
-    "https://api.openweathermap.org/data/2.5/forecast?q=" +
-    cityName.trim() +
-    "," +
-    stateName.trim() +
-    "," +
-    countryName.trim() +
-    "&appid=74cf78750ecac686f9f70dee01219c17";
+  $("#searchBtn").on("click", function (event) {
+    cityStr = $("#search-text-input").val();
 
-  $.ajax({
-    url: queryURL,
-    method: "GET",
-  }).then(function (response) {
-    console.log(response);
-    console.log(cityName);
-    let results = response.data;
-    for (let i = 0; i < results.length; i++) {
-      const element = results[i];
-      let weatherBtn = $("<button></button>");
-      weatherBtn.text = "cityStr";
-    }
+    let weatherBtn = $("<button>");
+    weatherBtn.text(cityStr);
+    $("#weatherButtons").append(weatherBtn);
+
+    // open weather API call for 1 day forecast
+    const queryURL =
+      "https://api.openweathermap.org/data/2.5/weather?q=" +
+      cityStr.trim() +
+      "&appid=74cf78750ecac686f9f70dee01219c17";
+
+    $.ajax({
+      url: queryURL,
+      method: "GET",
+    }).then(function (response) {
+      console.log(response);
+      var Kelvin = response.main.temp;
+      var Fahrenheit = (Kelvin - 273.15) * 1.8 + 32;
+      var tempF = parseInt(Fahrenheit);
+      console.log(parseInt(Fahrenheit));
+      console.log(Kelvin);
+      $("#Name").text(response.name);
+      $("#Date").text("Date: " + new Date().toLocaleDateString());
+      // create variable for icon to feed into the URL
+      $("#weatherIcon").text("IMAGE HERE");
+      $("#Temp").text("Temperature: " + tempF + "F");
+      console.log("Temperature: " + tempF + "F");
+      $("#Humidity").text("Humidity: " + response.main.humidity + "%");
+      $("#WindSpeed").text("Wind Speed: " + response.wind.speed + " MPH");
+      // whatever this is will have to move to the 3rd API call...
+      $("#UVIndex").text("UV Index: " + response.main[3]);
+    });
+
+    // open weather API call for 5 day forecast
+    const queryURL5Day =
+      "https://api.openweathermap.org/data/2.5/forecast?q=" +
+      cityStr.trim() +
+      "&appid=74cf78750ecac686f9f70dee01219c17";
+
+    $.ajax({
+      url: queryURL5Day,
+      method: "GET",
+    }).then(function (response) {
+      // console.log(response);
+      // console.log(cityStr);
+      let results = response.data;
+      for (let i = 0; i < results.length; i++) {
+        const element = results[i];
+      }
+    });
   });
 
   // end of ready statement

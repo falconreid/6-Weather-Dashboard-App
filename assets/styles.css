@@ -121,8 +121,18 @@ ul {
   list-style-type: none;
 }
 
+li img {
+  background-color: #0072b2;
+  border-radius: 5px;
+}
+
 #fiveDay .col .card {
   background-color: #0072b2;
+  color: #fff;
+}
+
+#fiveDay .col .card h5 {
+  text-shadow: 2px 2px 7px rgba(0, 0, 0, 1);
 }
 
 #weatherButtons button {
@@ -131,4 +141,15 @@ ul {
   height: 45px;
   margin: 5px auto;
   background-color: #cac4ce;
+}
+
+#cityWeather ul li {
+  padding-left: 10px;
+}
+
+#UVIndex {
+  background-color: #0072b2;
+  color: #fff;
+  border-radius: 4px;
+  width: 250px;
 }

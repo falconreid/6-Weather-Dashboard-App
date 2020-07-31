@@ -33,6 +33,12 @@ footer {
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.75);
   margin-bottom: 3px;
 }
+
+#header {
+  background-image: url("../images/weatherBackground.png") !important;
+  background-repeat: no-repeat;
+  z-index: 999;
+}
 main {
   background-color: #f7ece1;
   color: #000;
@@ -129,7 +135,12 @@ li img {
 #fiveDay .col .card {
   background-color: #0072b2;
   color: #fff;
+}
+
+.card-body {
   width: 125px;
+  padding: 5px !important;
+  font-size: 16px;
 }
 
 #fiveDay .col .card h6 {

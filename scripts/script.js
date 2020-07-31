@@ -63,8 +63,7 @@ $(document).ready(function () {
       // console.log(cityStr);
       let results = response.list;
 
-      for (let i = 3; i < results.length; i += 8) {
-        const element = results[i];
+      for (let i = 0; i < results.length; i += 8) {
         // let x = i + 8; there are 8 data entries for each day.
         console.log(response.list[i]);
         var responseData = response.list[i];

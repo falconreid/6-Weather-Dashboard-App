@@ -129,9 +129,10 @@ li img {
 #fiveDay .col .card {
   background-color: #0072b2;
   color: #fff;
+  width: 125px;
 }
 
-#fiveDay .col .card h5 {
+#fiveDay .col .card h6 {
   text-shadow: 2px 2px 7px rgba(0, 0, 0, 1);
 }
 

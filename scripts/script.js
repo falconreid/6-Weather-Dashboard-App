@@ -1,5 +1,10 @@
 $(document).ready(function () {
-  // create global variables
+  // sets 5 day forecast dates
+  $("#dayOne h6").text(moment().date(Number).add(1, "d").format("MM/DD/YY"));
+  $("#dayTwo h6").text(moment().date(Number).add(2, "d").format("MM/DD/YY"));
+  $("#dayThree h6").text(moment().date(Number).add(3, "d").format("MM/DD/YY"));
+  $("#dayFour h6").text(moment().date(Number).add(4, "d").format("MM/DD/YY"));
+  $("#dayFive h6").text(moment().date(Number).add(5, "d").format("MM/DD/YY"));
 
   let cityStr;
   // create button from search entry - click on search button
@@ -58,12 +63,18 @@ $(document).ready(function () {
       // console.log(cityStr);
       let results = response.list;
 
-      console.log("I am here: " + response.list[4].dt_txt);
       for (let i = 3; i < results.length; i += 8) {
         const element = results[i];
-        // let x = i + 8;
+        // let x = i + 8; there are 8 data entries for each day.
         console.log(response.list[i]);
+        var responseData = response.list[i];
+
+        var Kelvin = responseData.main.temp;
+        var Fahrenheit = (Kelvin - 273.15) * 1.8 + 32;
+        var tempF = parseInt(Fahrenheit);
+        $("p.card-text.temp").text("Temp: " + tempF + " F");
       }
+      console.log(tempF);
     });
   });
 

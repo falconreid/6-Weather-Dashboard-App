@@ -55,14 +55,14 @@ $(document).ready(function () {
           "http://openweathermap.org/img/wn/" + imgIcon + "@2x.png"
         );
 
+        // feeding data into temp, humidity and wind speed
         $("#Temp").text("Temperature: " + tempF + " F");
-
         $("#Humidity").text("Humidity: " + response.main.humidity + "%");
         $("#WindSpeed").text("Wind Speed: " + response.wind.speed + " MPH");
       })
       .then(function () {
+        // creating hidden variables in html to avoid scoping problem
         let cityLat = $("#hidden1").text();
-
         let cityLon = $("#hidden2").text();
 
         // open weather API call for 5 day forecast
@@ -80,7 +80,8 @@ $(document).ready(function () {
         }).then(function (response) {
           // console.log(response);
           // console.log(cityStr);
-          let results = response.list;
+          let results = response;
+          console.log(results);
 
           // UV INDEX Section...
           $("#UVIndex").text("UV Index: " + response.current.uvi);
@@ -92,15 +93,25 @@ $(document).ready(function () {
             $("#UVIndex").attr("class", "high");
           }
 
-          for (let i = 0; i < results.length; i++) {
-            // let x = i + 8; there are 8 data entries for each day.
-            console.log(response.list[i]);
-            var responseData = response.list[i];
+          // Change images in the 5 day forecast
+          $("#dayOne > img").attr(
+            "src",
+            "http://openweathermap.org/img/wn/" +
+              response.daily[0].weather[0].icon +
+              "@2x.png"
+          );
 
-            var tempF = parseInt(response.main.temp);
-            $("p.card-text.temp").text("Temp: " + tempF + " F");
-          }
-          console.log(tempF);
+          $("#dayTwo > img").attr(
+            "src",
+            "http://openweathermap.org/img/wn/" +
+              response.daily[0].weather[1].icon +
+              "@2x.png"
+          );
+
+          // var tempF = parseInt(response.daily[i].temp);
+          $("#dayOne > p.card-text.temp").text(
+            "Temp: " + parseInt(results.daily[0].temp.day) + " F"
+          );
         });
       });
   });

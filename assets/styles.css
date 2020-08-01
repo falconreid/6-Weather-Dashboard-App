@@ -159,9 +159,23 @@ li img {
   padding-left: 10px;
 }
 
-#UVIndex {
+li#UVIndex.low {
   background-color: #0072b2;
   color: #fff;
+  border-radius: 4px;
+  width: 250px;
+}
+
+li#UVIndex.med {
+  background-color: #f0e442;
+  color: #000;
+  border-radius: 4px;
+  width: 250px;
+}
+
+li#UVIndex.high {
+  background-color: #d55e00;
+  color: #000;
   border-radius: 4px;
   width: 250px;
 }

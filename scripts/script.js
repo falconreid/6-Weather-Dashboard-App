@@ -14,7 +14,7 @@ $(document).ready(function () {
   $("#searchBtn").on("click", function (event) {
     cityStr = $("#search-text-input").val();
 
-    let weatherBtn = $("<button>");
+    let weatherBtn = $("<button>").attr("class", "glow-on-hover");
     let hiddenDiv1 = $("<div id='hidden1'>");
     let hiddenDiv2 = $("<div id='hidden2'>");
     weatherBtn.text(cityStr);
@@ -34,9 +34,7 @@ $(document).ready(function () {
       method: "GET",
     })
       .then(function (response) {
-        console.log(response);
-        console.log(response.coord.lon);
-        console.log(response.coord.lat);
+        // set longitude and latitude variable values
         cityLon = response.coord.lon;
         cityLat = response.coord.lat;
 
@@ -80,8 +78,62 @@ $(document).ready(function () {
         }).then(function (response) {
           // console.log(response);
           // console.log(cityStr);
-          let results = response;
+          let results = [response.daily[0]];
           console.log(results);
+          console.log(response.daily[0].feels_like.day);
+          console.log(response.daily[0].humidity);
+          console.log(response.daily[0].weather[0].icon);
+
+          // Change images in the 5 day forecast
+          $("#d1").attr(
+            "src",
+            "http://openweathermap.org/img/wn/" +
+              response.daily[0].weather[0].icon +
+              "@2x.png"
+          );
+
+          $("#d2").attr(
+            "src",
+            "http://openweathermap.org/img/wn/" +
+              response.daily[1].weather[0].icon +
+              "@2x.png"
+          );
+
+          $("#d3").attr(
+            "src",
+            "http://openweathermap.org/img/wn/" +
+              response.daily[2].weather[0].icon +
+              "@2x.png"
+          );
+
+          $("#d4").attr(
+            "src",
+            "http://openweathermap.org/img/wn/" +
+              response.daily[3].weather[0].icon +
+              "@2x.png"
+          );
+
+          $("#d5").attr(
+            "src",
+            "http://openweathermap.org/img/wn/" +
+              response.daily[4].weather[0].icon +
+              "@2x.png"
+          );
+
+          // set daily temperatures
+
+          $("#temp1").text("Temp: " + response.daily[0].feels_like.day + " F");
+          $("#temp2").text("Temp: " + response.daily[1].feels_like.day + " F");
+          $("#temp3").text("Temp: " + response.daily[2].feels_like.day + " F");
+          $("#temp4").text("Temp: " + response.daily[3].feels_like.day + " F");
+          $("#temp5").text("Temp: " + response.daily[4].feels_like.day + " F");
+
+          // set daily humidity percentage
+          $("#humid1").text("Humidity: " + response.daily[0].humidity + "%");
+          $("#humid2").text("Humidity: " + response.daily[1].humidity + "%");
+          $("#humid3").text("Humidity: " + response.daily[2].humidity + "%");
+          $("#humid4").text("Humidity: " + response.daily[3].humidity + "%");
+          $("#humid5").text("Humidity: " + response.daily[4].humidity + "%");
 
           // UV INDEX Section...
           $("#UVIndex").text("UV Index: " + response.current.uvi);
@@ -92,26 +144,6 @@ $(document).ready(function () {
           } else if (response.current.uvi >= 8) {
             $("#UVIndex").attr("class", "high");
           }
-
-          // Change images in the 5 day forecast
-          $("#dayOne > img").attr(
-            "src",
-            "http://openweathermap.org/img/wn/" +
-              response.daily[0].weather[0].icon +
-              "@2x.png"
-          );
-
-          $("#dayTwo > img").attr(
-            "src",
-            "http://openweathermap.org/img/wn/" +
-              response.daily[0].weather[1].icon +
-              "@2x.png"
-          );
-
-          // var tempF = parseInt(response.daily[i].temp);
-          $("#dayOne > p.card-text.temp").text(
-            "Temp: " + parseInt(results.daily[0].temp.day) + " F"
-          );
         });
       });
   });

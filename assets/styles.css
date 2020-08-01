@@ -165,3 +165,9 @@ li img {
   border-radius: 4px;
   width: 250px;
 }
+
+#hidden1,
+#hidden2 {
+  visibility: hidden;
+  height: 2px;
+}

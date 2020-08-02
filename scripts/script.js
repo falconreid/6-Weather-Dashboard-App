@@ -25,7 +25,9 @@ $(document).ready(function () {
     localStorage.setItem("Cities", JSON.stringify(dataArrayForLocalStorage));
 
     // setting buttons
-    let weatherBtn = $("<button>").attr("class", "glow-on-hover");
+    let weatherBtn = $(
+      `<button data-storage-index="${dataArrayForLocalStorage.length - 1}">`
+    ).attr("class", "glow-on-hover");
     // setting div to receive lat and lon (avoid scoping problems)
     let hiddenDiv1 = $("<div id='hidden1'>");
     let hiddenDiv2 = $("<div id='hidden2'>");
@@ -35,11 +37,13 @@ $(document).ready(function () {
     $("#weatherButtons").append(hiddenDiv1);
     $("#weatherButtons").append(hiddenDiv2);
 
-    // call to retrieve from storage
-    // $("button .glow-on-hover").on("click", function () {
-    //   var city = localStorage.getItem("Cities", JSON.parse(cityStr));
-    //   console.log(city);
-    // });
+    $(".glow-on-hover").on("click", function (event) {
+      event.preventDefault();
+      retrievedData = localStorage.getItem("Cities");
+      let retrievedArray = JSON.parse(retrievedData);
+      let index = $(this).data("storage-index");
+      console.log(retrievedArray[index]);
+    });
 
     // open weather API call for 1 day forecast
     const queryURL =
@@ -163,12 +167,12 @@ $(document).ready(function () {
             $("#UVIndex").attr("class", "high");
           }
 
-          $(".glow-on-hover").on("click", function () {
-            event.preventDefault();
-            retrievedData = localStorage.getItem("Cities");
-            console.log(JSON.parse(retrievedData));
-            console.log("x+1");
-          });
+          // $(".glow-on-hover").on("click", function () {
+          //   event.preventDefault();
+          //   retrievedData = localStorage.getItem("Cities");
+          //   console.log(JSON.parse(retrievedData));
+          //   console.log("x+1");
+          // });
         });
       });
   });

@@ -12,9 +12,14 @@ $(document).ready(function () {
 
   // create button from search entry - click on search button
   $("#searchBtn").on("click", function (event) {
+    event.preventDefault();
     cityStr = $("#search-text-input").val();
+    localStorage.setItem("Cities", JSON.stringify(cityStr));
+    //
 
+    // setting buttons
     let weatherBtn = $("<button>").attr("class", "glow-on-hover");
+    // setting div to receive lat and lon (avoid scoping problems)
     let hiddenDiv1 = $("<div id='hidden1'>");
     let hiddenDiv2 = $("<div id='hidden2'>");
     weatherBtn.text(cityStr);
@@ -22,6 +27,12 @@ $(document).ready(function () {
     $("#weatherButtons").append(weatherBtn);
     $("#weatherButtons").append(hiddenDiv1);
     $("#weatherButtons").append(hiddenDiv2);
+
+    // call to retrieve from storage
+    $("button .glow-on-hover").on("click", function () {
+      localStorage.getItem("Cities", JSON.parse(cityStr));
+      console.log(cityStr);
+    });
 
     // open weather API call for 1 day forecast
     const queryURL =

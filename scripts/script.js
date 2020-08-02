@@ -9,13 +9,20 @@ $(document).ready(function () {
   let cityStr;
   let cityLat;
   let cityLon;
+  let retrievedData;
 
   // create button from search entry - click on search button
+  // $("#searchBtn").on("click", function (event) {
+  //   event.preventDefault();
+  //   cityStr = $("#search-text-input").val();
+  //   localStorage.setItem("Cities", JSON.stringify(cityStr));
+  let dataArrayForLocalStorage = [];
+
   $("#searchBtn").on("click", function (event) {
     event.preventDefault();
     cityStr = $("#search-text-input").val();
-    localStorage.setItem("Cities", JSON.stringify(cityStr));
-    //
+    dataArrayForLocalStorage.push(cityStr);
+    localStorage.setItem("Cities", JSON.stringify(dataArrayForLocalStorage));
 
     // setting buttons
     let weatherBtn = $("<button>").attr("class", "glow-on-hover");
@@ -29,10 +36,10 @@ $(document).ready(function () {
     $("#weatherButtons").append(hiddenDiv2);
 
     // call to retrieve from storage
-    $("button .glow-on-hover").on("click", function () {
-      localStorage.getItem("Cities", JSON.parse(cityStr));
-      console.log(cityStr);
-    });
+    // $("button .glow-on-hover").on("click", function () {
+    //   var city = localStorage.getItem("Cities", JSON.parse(cityStr));
+    //   console.log(city);
+    // });
 
     // open weather API call for 1 day forecast
     const queryURL =
@@ -155,6 +162,13 @@ $(document).ready(function () {
           } else if (response.current.uvi >= 8) {
             $("#UVIndex").attr("class", "high");
           }
+
+          $(".glow-on-hover").on("click", function () {
+            event.preventDefault();
+            retrievedData = localStorage.getItem("Cities");
+            console.log(JSON.parse(retrievedData));
+            console.log("x+1");
+          });
         });
       });
   });

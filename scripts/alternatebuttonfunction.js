@@ -12,10 +12,10 @@ $(document).ready(function () {
   // let retrievedData;
   let dataArrayForLocalStorage =
     JSON.parse(localStorage.getItem("Cities")) || [];
-
+  // append buttons from localStorage when screen refreshed
   appendButtons();
-  // create button from search entry - click on search button
 
+  // create button from search entry
   function callButton(event) {
     event.preventDefault();
     console.log("works");
@@ -23,27 +23,30 @@ $(document).ready(function () {
     cityStr = event.target.innerHTML;
     callAPI();
   }
-
+  // - click on appended buttons to recall data
   $(".glow-on-hover").on("click", callButton);
 
+  // create search button functionality
   function searchButton(event) {
     event.preventDefault();
     cityStr = $("#search-text-input").val();
-
     dataArrayForLocalStorage.push(cityStr);
     localStorage.setItem("Cities", JSON.stringify(dataArrayForLocalStorage));
 
+    // append buttons with search function
     appendButtons();
 
     // open weather API call for 1 day forecast
     callAPI();
   }
+  // call search button
   $("#searchBtn").on("click", searchButton);
 
+  // create append button functionality
   function appendButtons() {
     // setting buttons
     $("#weatherButtons").empty();
-    // Loop through each item of the array
+    // Loop through each item of the array from local storage
     for (let index = 0; index < dataArrayForLocalStorage.length; index++) {
       let weatherBtn = $(
         `<button data-storage-index="${dataArrayForLocalStorage.length - 1}">`

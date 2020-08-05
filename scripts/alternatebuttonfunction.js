@@ -10,44 +10,56 @@ $(document).ready(function () {
   let cityLat;
   let cityLon;
   // let retrievedData;
-  let retrievedData = JSON.parse(localStorage.getItem("Cities")) || [];
-  console.log(retrievedData);
+  let dataArrayForLocalStorage =
+    JSON.parse(localStorage.getItem("Cities")) || [];
+
+  appendButtons();
   // create button from search entry - click on search button
 
-  let dataArrayForLocalStorage = [];
+  function callButton(event) {
+    event.preventDefault();
+    console.log("works");
+    console.log(event.target.innerHTML);
+    cityStr = event.target.innerHTML;
+    callAPI();
+  }
+
+  $(".glow-on-hover").on("click", callButton);
 
   function searchButton(event) {
     event.preventDefault();
     cityStr = $("#search-text-input").val();
+
     dataArrayForLocalStorage.push(cityStr);
     localStorage.setItem("Cities", JSON.stringify(dataArrayForLocalStorage));
 
-    function callButton(event) {
-      event.preventDefault();
-      retrievedData = localStorage.getItem("Cities");
-      let retrievedArray = JSON.parse(retrievedData);
-      let index = $(this).data("storage-index");
-      console.log(retrievedArray[index]);
-      console.log(event.target.innerHTML);
-    }
-
-    $(".glow-on-hover").on("click", callButton(event));
-
-    // setting buttons
-    let weatherBtn = $(
-      `<button data-storage-index="${dataArrayForLocalStorage.length - 1}">`
-    ).attr("class", "glow-on-hover");
-    // setting div to receive lat and lon (avoid scoping problems)
-    let hiddenDiv1 = $("<div id='hidden1'>");
-    let hiddenDiv2 = $("<div id='hidden2'>");
-    weatherBtn.text(cityStr);
-
-    $("#weatherButtons").append(weatherBtn);
-    $("#weatherButtons").append(hiddenDiv1);
-    $("#weatherButtons").append(hiddenDiv2);
+    appendButtons();
 
     // open weather API call for 1 day forecast
+    callAPI();
+  }
+  $("#searchBtn").on("click", searchButton);
 
+  function appendButtons() {
+    // setting buttons
+    $("#weatherButtons").empty();
+    // Loop through each item of the array
+    for (let index = 0; index < dataArrayForLocalStorage.length; index++) {
+      let weatherBtn = $(
+        `<button data-storage-index="${dataArrayForLocalStorage.length - 1}">`
+      ).attr("class", "glow-on-hover");
+      // setting div to receive lat and lon (avoid scoping problems)
+      let hiddenDiv1 = $("<div id='hidden1'>");
+      let hiddenDiv2 = $("<div id='hidden2'>");
+      weatherBtn.text(dataArrayForLocalStorage[index]);
+
+      $("#weatherButtons").append(weatherBtn);
+      $("#weatherButtons").append(hiddenDiv1);
+      $("#weatherButtons").append(hiddenDiv2);
+    }
+  }
+
+  function callAPI() {
     const queryURL =
       "https://api.openweathermap.org/data/2.5/weather?q=" +
       cityStr.trim() +
@@ -168,17 +180,9 @@ $(document).ready(function () {
           } else if (response.current.uvi >= 8) {
             $("#UVIndex").attr("class", "high");
           }
-
-          // $(".glow-on-hover").on("click", function () {
-          //   event.preventDefault();
-          //   retrievedData = localStorage.getItem("Cities");
-          //   console.log(JSON.parse(retrievedData));
-          //   console.log("x+1");
-          // });
         });
       });
   }
-  $("#searchBtn").on("click", searchButton);
 
   // end of ready statement
 });
